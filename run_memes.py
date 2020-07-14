@@ -10,8 +10,8 @@ VIDEO_ID = "Jwtn5_d2YCs"
 played_yet = False
 
 
-chromecasts = pychromecast.get_chromecasts()
-cast = next(cc for cc in chromecasts if cc.device.friendly_name == CAST_NAME)
+chromecasts, browser = pychromecast.get_listed_chromecasts(friendly_names=[CAST_NAME])
+cast = [x for x in chromecasts][0]
 cast.wait()
 yt = YouTubeController()
 cast.register_handler(yt)
