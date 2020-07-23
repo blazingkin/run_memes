@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 import pychromecast, requests, praw, time, os
 from pychromecast.controllers.youtube import YouTubeController
+import argparse
+
+
+parser = argparse.ArgumentParser(prog="Meme Script")
+parser.add_argument('--show_spoilers', dest='show_spoilers', action="store_true", help="Queue up posts that are marked as spoilers")
+parser.set_defaults(show_spoilers=False)
+args = parser.parse_args()
 
 CAST_NAME = "Living Room TV"
 
 # Change to the video id of the YouTube video
 # video id is the last part of the url http://youtube.com/watch?v=video_id
-VIDEO_ID = "Jwtn5_d2YCs"
+VIDEO_ID = "dQw4w9WgXcQ"
 played_yet = False
 
 
@@ -21,6 +28,8 @@ reddit = praw.Reddit(client_id=os.getenv("CLIENT_ID"),
                     password=os.getenv("REDDIT_PASSWORD"),
                     user_agent="youtube_haiku_bot")
 for submission in reddit.subreddit('youtubehaiku').hot(limit=25):
+    if submission.spoiler and args.show_spoilers:
+        continue
     link = submission.url
     VIDEO_ID = ""
     if "youtu.be" in link:
