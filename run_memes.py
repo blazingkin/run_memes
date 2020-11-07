@@ -28,7 +28,7 @@ reddit = praw.Reddit(client_id=os.getenv("CLIENT_ID"),
                     password=os.getenv("REDDIT_PASSWORD"),
                     user_agent="youtube_haiku_bot")
 for submission in reddit.subreddit('youtubehaiku').hot(limit=25):
-    if submission.spoiler and args.show_spoilers:
+    if submission.spoiler and not args.show_spoilers:
         continue
     link = submission.url
     VIDEO_ID = ""
